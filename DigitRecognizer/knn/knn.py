@@ -3,7 +3,7 @@ import heapq
 import threading
 import time
 trainMap={};
-with open('train.csv') as csvfile:
+with open('../train.csv') as csvfile:
 	reader=csv.DictReader(csvfile);
 	count=1;
 	for row in reader:
@@ -13,6 +13,8 @@ with open('train.csv') as csvfile:
 			list.append(int(row["pixel"+str(x)]));
 		trainMap[str(label)+"_"+str(count)]=list;
 		count+=1;
+		if count >= 1000:
+			break;
 valMap={};
 print "load finish"
 
@@ -73,18 +75,20 @@ def writeFile():
 
 threads = []
 maxLine=1;
-with open('test.csv') as testFile:
+twrite = threading.Thread(target=writeFile,args=());
+twrite.start();
+with open('../test.csv') as testFile:
 	reader=csv.DictReader(testFile);
 	for row in reader:
 		list=[];
 		for x in range(784):
 			list.append(int(row["pixel"+str(x)]));
-		t = threading.Thread(target=cal,args=(maxLine,list));
-		threads.append(t);
+		# t = threading.Thread(target=cal,args=(maxLine,list));
+		# threads.append(t);
+		cal(maxLine,list);
 		maxLine+=1;
-twrite = threading.Thread(target=writeFile,args=());
-twrite.start();
-for ti in range(15):
-	thread=threads.pop();
-	thread.start();
+
+# for ti in range(15):
+# 	thread=threads.pop();
+# 	thread.start();
 
