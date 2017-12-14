@@ -30,7 +30,7 @@ def cal(count,list):
 		tmap["val"]=sumData;
 		tmap["key"]=key;
 		tlist.append(tmap);
-	small=heapq.nsmallest(5,tlist,key=lambda s:s['val']);
+	small=heapq.nsmallest(7,tlist,key=lambda s:s['val']);
 	slist=[];
 	for map in small:
 		slist.append(map["key"][0]);
@@ -72,6 +72,7 @@ def writeFile():
 		else:
 			time.sleep(5);
 	f.close();
+	twrite.close();
 
 threads = []
 maxLine=1;
